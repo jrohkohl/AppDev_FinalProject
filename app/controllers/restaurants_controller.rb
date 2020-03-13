@@ -31,7 +31,7 @@ class RestaurantsController < ApplicationController
 
       @searched_restaurant.address = Restaurant.where({:name => r_name }).at(0).address
 
-      @searched_restaurant.save
+      
 
       session.store(:searched_restaurant_id, @searched_restaurant.id)
       session.store(:searched_restaurant_address, @searched_restaurant.address)
@@ -74,7 +74,7 @@ class RestaurantsController < ApplicationController
 
       @searched_restaurant.category = cat_result
 
-      @searched_restaurant.save
+     
 
       
 

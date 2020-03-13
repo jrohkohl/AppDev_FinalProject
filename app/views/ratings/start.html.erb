@@ -67,10 +67,10 @@
                     <p class = "card-text"><%= @searched_restaurant.address %></p>
 
                     <form action="/insert_restaurant" method="post">
-                      <input type="hidden" value = <%=@searched_restaurant.name %> name="query_name">
-                      <input type="hidden" value = <%=@searched_restaurant.address %> name="query_address">
-                      <input type="hidden" value = <%=@searched_restaurant.image %> name="query_image">
-                      <input type="hidden" value = <%=@searched_restaurant.category %> name="query_category">
+                      <input type="hidden" value = "<%=@searched_restaurant.name %>" name="query_name">
+                      <input type="hidden" value = "<%=@searched_restaurant.address %>" name="query_address">
+                      <input type="hidden" value = "<%=@searched_restaurant.image %>" name="query_image">
+                      <input type="hidden" value = "<%=@searched_restaurant.category %>" name="query_category">
                       <div class="form-group">
                         <button class ="btn btn-sm btn-outline-secondary">Select</button>
                       </div>
@@ -179,17 +179,17 @@
                 <% if session.fetch(:edit_rest_id) == rating.restaurant_id %>
                   <div class = "form-group"> 
                     <form action = "/modify_rating/<%= rating.id %>" method = "post">
-                      <label for="rating_box">
+                      <label for="rating_box2">
                         New Rating
                       </label>
                       <br>
                       
                       <span class="font-weight-bold indigo-text mr-2 mt-1">0</span>
                       
-                        <input class="border-0" type="range" min="0" max="5" step="1" id="rating_box" name="query_rating">
+                        <input class="border-0" type="range" min="0" max="5" step="1" id="rating_box2" name="query_rating">
                       
                       <span class="font-weight-bold indigo-text ml-2 mt-1">5</span>
-                      <input type="hidden" value = <%= rating.restaurant.id %> name="query_restaurant_id">
+                      <input type="hidden" value = "<%= rating.restaurant.id %>" name="query_restaurant_id">
                       
                       <button class ="btn btn-sm btn-outline-secondary">Update</button>
                     </form>

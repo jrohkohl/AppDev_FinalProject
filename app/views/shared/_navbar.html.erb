@@ -1,0 +1,87 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light mb-4">
+  <div class="container">
+
+    <a href="/"><img src="https://i.imgur.com/lhCFkmX.png" style = "height: 50px;"></a>
+    <a class="navbar-brand" href="/">
+      Morsel
+    </a>
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsible-nav-links" aria-controls="collapsible-nav-links" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="collapsible-nav-links">
+      <ul class="navbar-nav mr-auto">
+
+
+        <% if @current_user.present?%>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <%=@current_user.email%>
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a href="/user_sign_in" class="dropdown-item">
+                Change User
+              </a>
+              <a href="/user_sign_out" class="dropdown-item">
+                Sign Out
+              </a>
+
+            </div>
+          </li>
+          <li>
+            <a class="nav-link" href="/dashboard" id="navbarDropdown" role="button"  aria-haspopup="true" aria-expanded="false">
+              My Dashboard
+            </a>
+
+          </li>
+          <li>
+            <a class="nav-link" href="/get_started" id="navbarDropdown" role="button"  aria-haspopup="true" aria-expanded="false">
+              My Ratings
+            </a>
+
+          </li>
+        <% end %>
+        
+        
+        <% if @current_user.nil?%>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Profile
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a href="/user_sign_in" class="dropdown-item">
+                Sign In
+              </a>
+              <a href="/user_sign_up" class="dropdown-item">
+                Sign Up
+              </a>
+
+            </div>
+          </li>
+
+
+        <% end %>
+
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Resources
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a href="/tags" class="dropdown-item">
+              Tags
+            </a>
+            <a href="/ratings" class="dropdown-item">
+              Ratings
+            </a>
+            <a href="/restaurants" class="dropdown-item">
+              Restaurants
+            </a>
+          </div>
+        </li>
+
+
+      </ul>
+    </div> <!-- .navbar-collapse -->
+  </div> <!-- .container -->
+</nav>
