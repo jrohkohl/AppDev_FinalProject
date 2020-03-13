@@ -1,0 +1,116 @@
+<div class="row mb-3">
+  <div class="col-md-8 offset-md-2">
+    <h1>
+      Rating #<%= @rating.id %> details
+    </h1>
+
+    <div class="row mb-3">
+      <div class="col">
+        <a href="/ratings" class="btn btn-block btn-outline-secondary">
+          Go back
+        </a>
+      </div>
+
+      <div class="col">
+        <a href="/delete_rating/<%= @rating.id %>" class="btn btn-block btn-outline-secondary">
+          Delete rating
+        </a>
+      </div>
+    </div>
+
+    <dl>
+      <dt>
+        User
+      </dt>
+      <dd>
+        <%= @rating.user_id %>
+      </dd>
+
+      <dt>
+        Restaurant
+      </dt>
+      <dd>
+        <%= @rating.restaurant_id %>
+      </dd>
+
+      <dt>
+        Rating
+      </dt>
+      <dd>
+        <%= @rating.rating %>
+      </dd>
+
+      <dt>
+        Comment
+      </dt>
+      <dd>
+        <%= @rating.comment %>
+      </dd>
+
+      <dt>
+        Created at
+      </dt>
+      <dd>
+        <%= time_ago_in_words(@rating.created_at) %> ago
+      </dd>
+
+      <dt>
+        Updated at
+      </dt>
+      <dd>
+        <%= time_ago_in_words(@rating.updated_at) %> ago
+      </dd>
+    </dl>
+  </div>
+</div>
+
+<hr>
+
+
+<div class="row mb-3">
+  <div class="col-md-8 offset-md-2">
+    <h2>
+      Edit rating
+    </h2>
+
+    <form action="/modify_rating/<%= @rating.id %>"  method="post" >
+      <div class="form-group">
+        <label for="user_id_box">
+          User
+        </label>
+
+        <input type="text" id="user_id_box" name="query_user_id" class="form-control" value="<%= @rating.user_id %>">
+      </div>
+
+      <div class="form-group">
+        <label for="restaurant_id_box">
+          Restaurant
+        </label>
+
+        <input type="text" id="restaurant_id_box" name="query_restaurant_id" class="form-control" value="<%= @rating.restaurant_id %>">
+      </div>
+
+      <div class="form-group">
+        <label for="rating_box">
+          Rating
+        </label>
+
+        <input type="text" id="rating_box" name="query_rating" class="form-control" value="<%= @rating.rating %>">
+      </div>
+
+      <div class="form-group">
+        <label for="comment_box">
+          Comment
+        </label>
+
+        <textarea id="comment_box" name="query_comment" class="form-control" rows="3"><%= @rating.comment %></textarea>
+      </div>
+
+      <button class="btn btn-block btn-outline-secondary">
+        Update rating
+      </button>
+    </form>
+  </div>
+</div>
+
+<hr>

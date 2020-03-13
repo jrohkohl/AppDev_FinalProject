@@ -1,0 +1,101 @@
+<div class="row mb-3">
+  <div class="col-md-8 offset-md-2">
+    <h1>
+      Tag #<%= @tag.id %> details
+    </h1>
+
+    <div class="row mb-3">
+      <div class="col">
+        <a href="/tags" class="btn btn-block btn-outline-secondary">
+          Go back
+        </a>
+      </div>
+
+      <div class="col">
+        <a href="/delete_tag/<%= @tag.id %>" class="btn btn-block btn-outline-secondary">
+          Delete tag
+        </a>
+      </div>
+    </div>
+
+    <dl>
+      <dt>
+        User
+      </dt>
+      <dd>
+        <%= @tag.user_id %>
+      </dd>
+
+      <dt>
+        Restaurant
+      </dt>
+      <dd>
+        <%= @tag.restaurant_id %>
+      </dd>
+
+      <dt>
+        Tag
+      </dt>
+      <dd>
+        <%= @tag.tag %>
+      </dd>
+
+      <dt>
+        Created at
+      </dt>
+      <dd>
+        <%= time_ago_in_words(@tag.created_at) %> ago
+      </dd>
+
+      <dt>
+        Updated at
+      </dt>
+      <dd>
+        <%= time_ago_in_words(@tag.updated_at) %> ago
+      </dd>
+    </dl>
+  </div>
+</div>
+
+<hr>
+
+
+<div class="row mb-3">
+  <div class="col-md-8 offset-md-2">
+    <h2>
+      Edit tag
+    </h2>
+
+    <form action="/modify_tag/<%= @tag.id %>"  method="post" >
+      <div class="form-group">
+        <label for="user_id_box">
+          User
+        </label>
+
+        <input type="text" id="user_id_box" name="query_user_id" class="form-control" value="<%= @tag.user_id %>">
+      </div>
+
+      <div class="form-group">
+        <label for="restaurant_id_box">
+          Restaurant
+        </label>
+
+        <input type="text" id="restaurant_id_box" name="query_restaurant_id" class="form-control" value="<%= @tag.restaurant_id %>">
+      </div>
+
+      <div class="form-group">
+        <label for="tag_box">
+          Tag
+        </label>
+
+        <input type="text" id="tag_box" name="query_tag" class="form-control" value="<%= @tag.tag %>">
+      </div>
+
+      <button class="btn btn-block btn-outline-secondary">
+        Update tag
+      </button>
+    </form>
+  </div>
+</div>
+
+<hr>
