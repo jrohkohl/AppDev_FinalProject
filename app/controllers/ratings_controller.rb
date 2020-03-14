@@ -5,6 +5,16 @@ class RatingsController < ApplicationController
     render({ :template => "ratings/index.html.erb" })
   end
 
+  def dashboard  
+
+    @most_rated = Statistic.all.order({ :count_ratings => :desc })
+
+    @highest_rated = Statistic.all.order({ :average_rating => :desc })
+
+    render({ :template => "ratings/dashboard.html.erb" })
+
+  end
+
   def show
     the_id = params.fetch("path_id")
     @rating = Rating.where({:id => the_id }).at(0)
@@ -18,9 +28,18 @@ class RatingsController < ApplicationController
     @rating.restaurant_id = params.fetch("query_restaurant_id")
     @rating.rating = params.fetch("query_rating")
     @rating.comment = params.fetch("query_comment")
+    
+    @statistic = Statistic.where({:restaurant_id => @rating.restaurant_id }).at(0)
 
     if @rating.valid?
       @rating.save
+      
+      @statistic.count_ratings = @statistic.count_ratings + 1
+      @statistic.average_rating = (@statistic.average_rating * (@statistic.count_ratings - 1) + @rating.rating) / @statistic.count_ratings
+
+      @statistic.save
+      
+      
       redirect_to("/get_started", { :notice => "Rating created successfully." })
     else
       redirect_to("/get_started", { :notice => "Rating failed to create successfully." })
@@ -58,9 +77,9 @@ class RatingsController < ApplicationController
 
     if @rating.valid?
       @rating.save
-      redirect_to("/get_started", { :notice => "Rating updated successfully."} )
+      redirect_to("/get_started")
     else
-      redirect_to("/get_started", { :alert => "Rating failed to update successfully." })
+      redirect_to("/get_started")
     end
   end
 

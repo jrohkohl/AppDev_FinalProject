@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_10_201428) do
+ActiveRecord::Schema.define(version: 2020_03_14_154216) do
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
@@ -52,6 +52,14 @@ ActiveRecord::Schema.define(version: 2020_03_10_201428) do
     t.string "address"
     t.string "category"
     t.string "image"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "statistics", force: :cascade do |t|
+    t.integer "restaurant_id"
+    t.float "average_rating"
+    t.integer "count_ratings"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end

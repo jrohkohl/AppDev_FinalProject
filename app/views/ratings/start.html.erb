@@ -91,6 +91,7 @@
         <h2 class="jumbotron-heading"><%=@restaurant.name%></h2>
         <h3 class="jumbotron-heading"><%=@restaurant.address%></h3>
         <h3 class="jumbotron-heading"><%=@restaurant.category%></h3>
+        
 
         <form action="/insert_rating" method="post">
           <div class="form-group">
@@ -129,7 +130,8 @@
 
 
 
-
+<br>
+<br>
     
 
 <div class="container">
@@ -190,7 +192,7 @@
                       
                       <span class="font-weight-bold indigo-text ml-2 mt-1">5</span>
                       <input type="hidden" value = "<%= rating.restaurant.id %>" name="query_restaurant_id">
-                      
+                      <br>
                       <button class ="btn btn-sm btn-outline-secondary">Update</button>
                     </form>
                   </div>

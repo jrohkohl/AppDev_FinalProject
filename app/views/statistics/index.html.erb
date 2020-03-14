@@ -1,0 +1,118 @@
+<div class="row mb-3">
+  <div class="col-md-12">
+    <h1>
+      List of all statistics
+    </h1>
+  </div>
+</div>
+
+<hr>
+
+<div class="row mb-3">
+  <div class="col-md-8 offset-md-2">
+    <h2>
+      Add a new statistic
+    </h2>
+
+    <form action="/insert_statistic" method="post">
+      <div class="form-group">
+        <label for="restaurant_id_box">
+          Restaurant
+        </label>
+
+        <input type="text" id="restaurant_id_box" name="query_restaurant_id" class="form-control">
+      </div>
+
+      <div class="form-group">
+        <label for="average_rating_box">
+          Average rating
+        </label>
+
+        <input type="text" id="average_rating_box" name="query_average_rating" class="form-control">
+      </div>
+
+      <div class="form-group">
+        <label for="count_ratings_box">
+          Count ratings
+        </label>
+
+        <input type="text" id="count_ratings_box" name="query_count_ratings" class="form-control">
+      </div>
+
+      <button class="btn btn-block btn-outline-secondary">
+        Create statistic
+      </button>
+    </form>
+  </div>
+</div>
+
+<hr>
+<div class="row mb-3">
+  <div class="col-md-12">
+    <table class="table">
+      <tr>
+        <th>
+          ID
+        </th>
+
+        <th>
+          Restaurant
+        </th>
+
+        <th>
+          Average rating
+        </th>
+
+        <th>
+          Count ratings
+        </th>
+
+        <th>
+          Created at
+        </th>
+
+        <th>
+          Updated at
+        </th>
+
+        <th>
+        </th>
+      </tr>
+
+      <% @statistics.each do |statistic| %>
+      <tr>
+        <td>
+          <%= statistic.id %>
+        </td>
+
+        <td>
+          <%= statistic.restaurant_id %>
+        </td>
+
+        <td>
+          <%= statistic.average_rating %>
+        </td>
+
+        <td>
+          <%= statistic.count_ratings %>
+        </td>
+
+        <td>
+          <%= time_ago_in_words(statistic.created_at) %> ago
+        </td>
+        <td>
+          <%= time_ago_in_words(statistic.updated_at) %> ago
+        </td>
+
+        <td>
+          <a href="/statistics/<%= statistic.id %>">
+            Show details
+          </a>
+        </td>
+      </tr>
+      <% end %>
+    </table>
+  </div>
+</div>
+
+<hr>

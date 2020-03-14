@@ -1,0 +1,101 @@
+<div class="row mb-3">
+  <div class="col-md-8 offset-md-2">
+    <h1>
+      Statistic #<%= @statistic.id %> details
+    </h1>
+
+    <div class="row mb-3">
+      <div class="col">
+        <a href="/statistics" class="btn btn-block btn-outline-secondary">
+          Go back
+        </a>
+      </div>
+
+      <div class="col">
+        <a href="/delete_statistic/<%= @statistic.id %>" class="btn btn-block btn-outline-secondary">
+          Delete statistic
+        </a>
+      </div>
+    </div>
+
+    <dl>
+      <dt>
+        Restaurant
+      </dt>
+      <dd>
+        <%= @statistic.restaurant_id %>
+      </dd>
+
+      <dt>
+        Average rating
+      </dt>
+      <dd>
+        <%= @statistic.average_rating %>
+      </dd>
+
+      <dt>
+        Count ratings
+      </dt>
+      <dd>
+        <%= @statistic.count_ratings %>
+      </dd>
+
+      <dt>
+        Created at
+      </dt>
+      <dd>
+        <%= time_ago_in_words(@statistic.created_at) %> ago
+      </dd>
+
+      <dt>
+        Updated at
+      </dt>
+      <dd>
+        <%= time_ago_in_words(@statistic.updated_at) %> ago
+      </dd>
+    </dl>
+  </div>
+</div>
+
+<hr>
+
+
+<div class="row mb-3">
+  <div class="col-md-8 offset-md-2">
+    <h2>
+      Edit statistic
+    </h2>
+
+    <form action="/modify_statistic/<%= @statistic.id %>"  method="post" >
+      <div class="form-group">
+        <label for="restaurant_id_box">
+          Restaurant
+        </label>
+
+        <input type="text" id="restaurant_id_box" name="query_restaurant_id" class="form-control" value="<%= @statistic.restaurant_id %>">
+      </div>
+
+      <div class="form-group">
+        <label for="average_rating_box">
+          Average rating
+        </label>
+
+        <input type="text" id="average_rating_box" name="query_average_rating" class="form-control" value="<%= @statistic.average_rating %>">
+      </div>
+
+      <div class="form-group">
+        <label for="count_ratings_box">
+          Count ratings
+        </label>
+
+        <input type="text" id="count_ratings_box" name="query_count_ratings" class="form-control" value="<%= @statistic.count_ratings %>">
+      </div>
+
+      <button class="btn btn-block btn-outline-secondary">
+        Update statistic
+      </button>
+    </form>
+  </div>
+</div>
+
+<hr>

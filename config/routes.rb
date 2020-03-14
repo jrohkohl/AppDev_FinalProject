@@ -1,8 +1,32 @@
 Rails.application.routes.draw do
 
+
   get("/get_started", { :controller => "ratings", :action => "start" })
   get("/lookup_restaurant", { :controller => "restaurants", :action => "search_restaurant" })
   get("/select_restaurant", { :controller => "restaurants", :action => "select_restaurant" })
+
+
+  get("/dashboard", { :controller => "ratings", :action => "dashboard" })
+  get("/", { :controller => "ratings", :action => "dashboard" })
+  
+  # Routes for the Statistic resource:
+
+  # CREATE
+  post("/insert_statistic", { :controller => "statistics", :action => "create" })
+          
+  # READ
+  get("/statistics", { :controller => "statistics", :action => "index" })
+  
+  get("/statistics/:path_id", { :controller => "statistics", :action => "show" })
+  
+  # UPDATE
+  
+  post("/modify_statistic/:path_id", { :controller => "statistics", :action => "update" })
+  
+  # DELETE
+  get("/delete_statistic/:path_id", { :controller => "statistics", :action => "destroy" })
+
+  #------------------------------
 
   # Routes for the Tag resource:
 

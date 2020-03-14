@@ -31,6 +31,9 @@ class RestaurantsController < ApplicationController
 
       @searched_restaurant.address = Restaurant.where({:name => r_name }).at(0).address
 
+      @searched_restaurant.category = Restaurant.where({:name => r_name }).at(0).category
+
+      @searched_restaurant.image = Restaurant.where({:name => r_name }).at(0).image
       
 
       session.store(:searched_restaurant_id, @searched_restaurant.id)
@@ -90,17 +93,37 @@ class RestaurantsController < ApplicationController
   end
 
   def create
+    
     @restaurant = Restaurant.new
     @restaurant.name = params.fetch("query_name")
     @restaurant.address = params.fetch("query_address")
     @restaurant.category = params.fetch("query_category")
     @restaurant.image = params.fetch("query_image")
 
-    if @restaurant.valid?
-      @restaurant.save
-      render({ :template=> "/ratings/start.html.erb"}, { :notice => "Restaurant created successfully." })
+    if @restaurant.in_db.present?
+
+      
+
+      @restaurant.id = @restaurant.in_db.id
+      render({ :template=> "/ratings/start.html.erb"})
+
     else
-      render({ :template=> "/ratings/start.html.erb"}, { :notice => "Restaurant failed to create successfully." })
+
+    
+
+      if @restaurant.valid?
+        @restaurant.save
+
+        @statistic = Statistic.new
+        @statistic.restaurant_id = @restaurant.id
+        @statistic.average_rating = 0
+        @statistic.count_ratings = 0
+        @statistic.save
+
+        render({ :template=> "/ratings/start.html.erb"})
+      else
+        render({ :template=> "/ratings/start.html.erb"})
+      end
     end
   end
 
