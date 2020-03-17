@@ -25,7 +25,7 @@ class RestaurantsController < ApplicationController
 
     if Restaurant.where({:name => r_name }).at(0).present?
 
-      @searched_restaurant = Restaurant.new
+      
 
       @searched_restaurant.name = Restaurant.where({:name => r_name }).at(0).name
 
@@ -34,10 +34,11 @@ class RestaurantsController < ApplicationController
       @searched_restaurant.category = Restaurant.where({:name => r_name }).at(0).category
 
       @searched_restaurant.image = Restaurant.where({:name => r_name }).at(0).image
-      
 
-      session.store(:searched_restaurant_id, @searched_restaurant.id)
-      session.store(:searched_restaurant_address, @searched_restaurant.address)
+
+
+
+      render({ :template => "/ratings/start.html.erb" })
       
     
     else
@@ -80,13 +81,13 @@ class RestaurantsController < ApplicationController
      
 
       
-
+      render({ :template => "/ratings/start.html.erb" })
 
     end
 
    
 
-    render({ :template => "/ratings/start.html.erb" })
+    
     
 
 

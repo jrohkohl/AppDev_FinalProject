@@ -57,17 +57,32 @@
     <div class = "row">
     
       
-      <% 5.times do |index|%>    
+      <% 4.times do |index|%>    
           
-        <div class = "col-md-2 h-100">
-          <div class= "card mb-2 box-shadow" >
+        <div class = "col-md-3 pb-4">
+          <div class= "card mb-2 box-shadow h-100" >
             <img class = "card-img-top img-thumbnail" style="width: 100%; height: 200px; object-fit: cover;"  src = "<%=@highest_rated.at(index).restaurant.image%>">
             <div class="card-body">
-              <h5 class="card-text">
-                <%=@highest_rated.at(index).restaurant.name%>
-              </h5>
-              <p>Average Rating:</p>
-              <p><%=@highest_rated.at(index).average_rating.round(1)%></p>
+              <h6 class="card-text">
+                <a href = "/restaurants/<%=@highest_rated.at(index).restaurant.id%>"><%=@highest_rated.at(index).restaurant.name%></a>
+              </h6>
+              <div class = "row">
+                
+                  <div class = "col-md-6 pb-1">
+                    <div style = "color: #b7c0c6;;">
+                      <small>Avg Rating:</small>
+                    </div>
+                    <button class="btn btn-sm btn-block btn-primary"><%=@highest_rated.at(index).average_rating.round(1)%></button>
+                  </div>
+                
+                  <div class = "col-md-6 pb-1">
+                    <div style = "color: #b7c0c6;;">
+                      <small>Num Rating:</small>
+                    </div>
+                    <button class="btn btn-sm btn-block btn-primary"><%=@highest_rated.at(index).count_ratings%></button>
+                  </div>
+                
+              </div>
 
             </div>
 
@@ -93,16 +108,34 @@
     </div>
     
     <div class = "row">
-      <% 5.times do |index|%>        
-        <div class = "col-md-2">
-          <div class= "card mb-2 box-shadow">
+      <% 4.times do |index|%>        
+        <div class = "col-md-3 pb-5">
+          <div class= "card mb-2 box-shadow h-100">
             <img class = "card-img-top img-thumbnail" style="width: 100%; height: 200px; object-fit: cover;" src = "<%=@most_rated.at(index).restaurant.image%>">
             <div class="card-body">
-              <h5 class="card-text">
-                <%=@most_rated.at(index).restaurant.name%>
-              </h5>
-              <p>Average Rating:</p>
-              <p><%=@most_rated.at(index).average_rating.round(1)%></p>
+              <h6 class="card-text">
+                
+                <a href = "/restaurants/<%=@most_rated.at(index).restaurant.id%>"><%=@most_rated.at(index).restaurant.name%></a>
+              </h6>
+          
+              <div class = "row">
+                
+                  <div class = "col-md-6 pb-1">
+                    <div style = "color: #b7c0c6;;">
+                      <small>Avg Rating:</small>
+                    </div>
+                    <button class="btn btn-sm btn-block btn-primary"><%=@most_rated.at(index).average_rating.round(1)%></button>
+                  </div>
+                
+                  <div class = "col-md-6 pb-1">
+                    <div style = "color: #b7c0c6;;">
+                      <small>Num Rating:</small>
+                    </div>
+                    <button class="btn btn-sm btn-block btn-primary"> <%=@most_rated.at(index).count_ratings%></button>
+                  </div>
+                
+              </div>
+              
 
             </div>
 

@@ -1,3 +1,19 @@
+<head>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+  <script src="jquery.barrating.min.js"></script>
+  <script type="text/javascript">
+    $(function() {
+        $('#example').barrating({
+          theme: 'fontawesome-stars'
+        });
+    });
+  </script>
+
+</head>
+
+<body>
+
 <% if @current_user.ratings_count < 5 %>
   <section class = "jumbotron text-center">  
     <div class="container">
@@ -44,7 +60,7 @@
 
             <input class="form-control" type="text" placeholder="Search" aria-label="Search" id="rest" name="rest_name">
 
-            <button class ="btn btn-sm btn-outline-secondary">Find Restaurant</button>
+            <button class ="btn btn-sm btn-outline-secondary mt-2">Find Restaurant</button>
           </div>
         </form>
       </div>
@@ -54,32 +70,43 @@
       
 
         <% if @searched_restaurant.present? %>
+          <% if @current_user.rated_restaurants.where({ :name => @searched_restaurant.name }).at(0).present?%>
+            <div class= "container">
+              <div class="col-md-8 offset-md-2">
+                <p class = "lead text-muted"><small> Notice: Already Rated </small></p>
+              </div>
+            </div>
+          <% end %>
+          <% if @current_user.rated_restaurants.where({ :name => @searched_restaurant.name }).at(0).nil?%>
 
-          <div class = "container">
-            <div class = "row">
-              <div class = "col-md-4">
-                <div class= "card mb-4 box-shadow">
-                  <img class = "card-img-top img-thumbnail" src = "<%=@searched_restaurant.image%>">
+          
 
-                  <div class="card-body">
-                    <p class = "card-text"><%= @searched_restaurant.name %> </p>
-                    <p class = "card-text"><%= @searched_restaurant.category %> </p>
-                    <p class = "card-text"><%= @searched_restaurant.address %></p>
+            <div class = "container">
+              <div class = "row">
+                <div class = "col-md-4">
+                  <div class= "card mb-4 box-shadow">
+                    <img class = "card-img-top img-thumbnail" src = "<%=@searched_restaurant.image%>">
 
-                    <form action="/insert_restaurant" method="post">
-                      <input type="hidden" value = "<%=@searched_restaurant.name %>" name="query_name">
-                      <input type="hidden" value = "<%=@searched_restaurant.address %>" name="query_address">
-                      <input type="hidden" value = "<%=@searched_restaurant.image %>" name="query_image">
-                      <input type="hidden" value = "<%=@searched_restaurant.category %>" name="query_category">
-                      <div class="form-group">
-                        <button class ="btn btn-sm btn-outline-secondary">Select</button>
-                      </div>
-                    </form>
+                    <div class="card-body">
+                      <p class = "card-text"><%= @searched_restaurant.name %> </p>
+                      <p class = "card-text"><%= @searched_restaurant.category %> </p>
+                      <p class = "card-text"><%= @searched_restaurant.address %></p>
+
+                      <form action="/insert_restaurant" method="post">
+                        <input type="hidden" value = "<%=@searched_restaurant.name %>" name="query_name">
+                        <input type="hidden" value = "<%=@searched_restaurant.address %>" name="query_address">
+                        <input type="hidden" value = "<%=@searched_restaurant.image %>" name="query_image">
+                        <input type="hidden" value = "<%=@searched_restaurant.category %>" name="query_category">
+                        <div class="form-group">
+                          <button class ="btn btn-sm btn-outline-secondary">Select</button>
+                        </div>
+                      </form>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          <div>
+            <div>
+          <% end %>
         <% end %>
       <% end %>
 
@@ -147,17 +174,20 @@
    
   <div class = "row">
     <% @current_user.ratings.each do |rating| %>        
-    <div class = "col-md-4">
-      <div class= "card mb-4 box-shadow">
-        <img class = "card-img-top img-thumbnail" src = "<%=rating.restaurant.image%>">
+    <div class = "col-md-3 pb-4">
+      <div class= "card box-shadow h-100">
+        <img class = "card-img-top img-thumbnail" style="width: 100%; height: 200px; object-fit: cover;" src = "<%=rating.restaurant.image%>">
         <div class="card-body">
-          <h3 class="card-text">
-            <%=rating.restaurant.name%>
-          </h3>
+          <h5 class="card-text">
+
+            <a href = "/restaurants/<%=rating.restaurant.id%>"><%=rating.restaurant.name%></a>
+            
+          </h5>
           <% if @open_rating.nil? %>
-            <p class="card-text">
-              <%=rating.rating%>
-            </p>
+            <div style = "color: #b7c0c6;">
+              <small>Rating:</small>
+            </div>
+            <button class="btn btn-sm btn-block btn-primary mb-2"> <%=rating.rating%></button>
           <% end %>
 
           <div class = "d-flex jutify-content-between align-items-center">
@@ -167,12 +197,12 @@
               
               
               <% if @open_rating.nil? %>
-                <div class="form-group">
+                <div class="form-group mr-1">
                   <form action = "/open_edit/<%= rating.id %>">
                     <button class ="btn btn-sm btn-outline-secondary">Edit</button>
                   </form>
                 </div>
-                <div class="form-group">
+                <div class="form-group mr-1">
                   <form action="/delete_rating/<%= rating.id %>">
                     <button class="btn btn-sm btn-outline-secondary">Delete</button>
                   </form>
@@ -227,3 +257,6 @@
 
 
 </div>
+
+
+</body>

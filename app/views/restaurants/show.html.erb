@@ -1,30 +1,105 @@
-<div class="row mb-3">
-  <div class="col-md-8 offset-md-2">
-    <h1>
-      <%= @restaurant.name %> 
-    </h1>
+<head>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.bundle.js" integrity="sha256-8zyeSXm+yTvzUN1VgAOinFgaVFEFTyYzWShOy9w7WoQ=" crossorigin="anonymous"></script>
+</head>
 
-    <img class = "img-fluid" src = "<%= @restaurant.image %>">
-     
-    <dl>
-      <dt>
-        Address
-      </dt>
-      <dd>
-        <%= @restaurant.address %>
-      </dd>
+<body>
+  
+    <div class = "container">
 
-      <dt>
-        Category
-      </dt>
-      <dd>
-        <%= @restaurant.category %>
-      </dd>
+      <div class="col-md-6 offset-md-2">
+        <h1>
+          <%= @restaurant.name %> 
+        </h1>
+
+        <img class = "img-fluid" src = "<%= @restaurant.image %>">
+        
+        <dl>
+          <dt>
+            Address
+          </dt>
+          <dd>
+            <%= @restaurant.address %>
+          </dd>
+
+          <dt>
+            Category
+          </dt>
+          <dd>
+            <%= @restaurant.category %>
+          </dd>
 
 
 
-    </dl>
-  </div>
-</div>
+        </dl>
+      </div>
+
+    </div>
+    <div class = "container">
+      <div class="col-md-6 offset-md-2 mb-4">
+          <canvas id="myChart"></canvas>
+      </div>
+    </div>
+  
+
+  
+
+  <script>
+    let myChart = document.getElementById('myChart').getContext('2d');
+
+    let massPopChart = new Chart(myChart, {
+      type: 'bar',
+      data:{
+        labels: ['0','1','2','3','4','5'],
+        datasets:[{
+          label: '% of Users',
+          data:[
+            <%=@restaurant.ratings.where({:rating => 0 }).count%>/<%=@restaurant.ratings.all.count%>,
+            <%=@restaurant.ratings.where({:rating => 1 }).count%>/<%=@restaurant.ratings.all.count%>,
+            <%=@restaurant.ratings.where({:rating => 2 }).count%>/<%=@restaurant.ratings.all.count%>,
+            <%=@restaurant.ratings.where({:rating => 3 }).count%>/<%=@restaurant.ratings.all.count%>,
+            <%=@restaurant.ratings.where({:rating => 4 }).count%>/<%=@restaurant.ratings.all.count%>,
+            <%=@restaurant.ratings.where({:rating => 5 }).count%>/<%=@restaurant.ratings.all.count%>
+          ],
+
+          backgroundColor:[
+            'rgba(255, 99, 132, 0.2)',
+            'rgba(54, 162, 235, 0.2)',
+            'rgba(255, 206, 86, 0.2)',
+            'rgba(75, 192, 192, 0.2)',
+            'rgba(153, 102, 255, 0.2)',
+            'rgba(255, 159, 64, 0.2)'
+          ]
+        }]
+      },
+      options:{
+        title:{
+          display: true,
+          text: 'Ratings Distribution'
+        },
+        scales: {
+          yAxes: [{
+            ticks: {
+                max: 1,
+                min: 0,
+                stepSize: 0.2
+            },
+            scaleLabel: {
+              display: true,
+              labelString: 'Percentage',
+            }
+            
+          }]
+        }
+      }
+      
+
+    });
+
+  </script>
+
+</body>
+
+
+
 
 

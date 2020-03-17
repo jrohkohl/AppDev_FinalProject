@@ -19,4 +19,6 @@ class User < ApplicationRecord
   has_many :tags, :dependent => :destroy
   has_many :rated_restaurants, :through => :ratings, :source => :restaurant
   has_many :restaurants, :through => :tags, :source => :restaurant
+
+
 end
