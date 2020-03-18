@@ -1,10 +1,15 @@
 task({:sim=> :environment}) do 
 
-  main_array = []
-  sub_array = []
-  check_user = User.where({ :id => 1 }).at(0)
-  all_users = User.all.order({ :created_at => :desc })
+
+  check_user = User.where({ :id => 3 }).at(0)
+  all_users = User.all.order({ :created_at => :desc }).sample(30)
   all_rest = Restaurant.all.order({ :created_at => :desc })
+
+  user_sample_id_array = []
+  user_sample_sim_array = []
+  final_user_array = []
+
+  
   
 
   all_users.each do |u|
@@ -60,27 +65,58 @@ task({:sim=> :environment}) do
 
       end 
       user_sim = sum_product / ((sum_check_sq ** 0.5) * (sum_u_sq ** 0.5))
+
+      user_sample_id_array.push(u.id)
+      user_sample_sim_array.push(user_sim)
+
     else 
       user_sim = 0.0
     end 
-
-    
-
-
-
-    #sub_array = [user_sim.to_f, u.id]
-    #main_array.push(sub_array)
-
-
+  
   end
 
-  #main_array.sort do |a, b|
-    #b.at(-1) <=> a.at(-1)
-  #end
+  num_users = user_sample_id_array.count
+  if num_users > 9 
+      10.times do
 
-  #p main_array.at(0)
-  #p main_array.at(1)
-  #p main_array.at(2)
+      max_index = user_sample_sim_array.index(user_sample_sim_array.max)
+      final_user_array.push(user_sample_id_array.at(user_sample_sim_array.index(user_sample_sim_array.max)))
+      user_sample_sim_array.delete_at(max_index)
+      user_sample_id_array.delete_at(max_index)
+
+    end
+
+
+  else
+    num_users.times do
+
+      max_index = user_sample_sim_array.index(user_sample_sim_array.max)
+      final_user_array.push(user_sample_id_array.at(user_sample_sim_array.index(user_sample_sim_array.max)))
+      user_sample_sim_array.delete_at(max_index)
+      user_sample_id_array.delete_at(max_index)
+
+    end
+  end 
+
+  p final_user_array
+
+  
+  ratings_of_similar_users = Rating.where({ :user_id => final_user_array })
+  best_ratings_of_similar_users = Rating.where({ :user_id => final_user_array }).where( "rating > ?", 3.9 )
+  rec_rest_id = best_ratings_of_similar_users.distinct.pluck(:restaurant_id)
+
+  sampled_rec_rest_id = rec_rest_id.sample(5)
+
+  my_rated_rest_id = check_user.ratings.pluck(:restaurant_id)
+
+  suggested_ids = rec_rest_id.difference(my_rated_rest_id)
+  
+
+  p Restaurant.where({ :id => suggested_ids}).at(0).name
+
+ 
+ 
+  
   
 
   
