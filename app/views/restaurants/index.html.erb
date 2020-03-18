@@ -1,134 +1,142 @@
-<div class="row mb-3">
-  <div class="col-md-12">
-    <h1>
-      List of all restaurants
-    </h1>
+<head>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.bundle.js" integrity="sha256-8zyeSXm+yTvzUN1VgAOinFgaVFEFTyYzWShOy9w7WoQ=" crossorigin="anonymous"></script>
+
+
+</head>
+
+
+
+<body>
+  <div class = "container">
+    <div class = "row">
+      <div class="col-md-6 offset-md-2 mb-4">
+        <canvas id="myChart"></canvas>
+      </div>
+    </div>
   </div>
-</div>
 
-<hr>
+  <div class="container">
+  
 
-<div class="row mb-3">
-  <div class="col-md-8 offset-md-2">
-    <h2>
-      Add a new restaurant
-    </h2>
+    <div class="row mb-3 jumbotron-heading">
 
-    <form action="/insert_restaurant" method="post">
-      <div class="form-group">
-        <label for="name_box">
-          Name
-        </label>
+      <div class="col-md-8">
 
-        <input type="text" id="name_box" name="query_name" class="form-control">
+        <h2>Rated Restaurants</h2>
       </div>
 
-      <div class="form-group">
-        <label for="address_box">
-          Address
-        </label>
+    </div>
+    <div class = "row">
+      <% @restaurants.each do |rest| %>
+      <% if rest.ratings.present?%>        
+      <div class = "col-md-3 pb-4">
+        <div class= "card box-shadow h-100">
+          <img class = "card-img-top img-thumbnail" style="width: 100%; height: 200px; object-fit: cover;" src = "<%=rest.image%>">
+          <div class="card-body">
+            <h6 class="card-text">
 
-        <input type="text" id="address_box" name="query_address" class="form-control">
+              <a href = "/restaurants/<%=rest.id%>"><%=rest.name%></a>
+              
+            </h6>
+              <div class = "row">
+                <div class = "col-md-6 pb-1">
+                  <div style = "color: #b7c0c6;">
+                    <small>Avg Rating:</small>
+                  </div>
+                  <button class="btn btn-sm btn-block btn-primary"> <%=rest.statistic.average_rating.round(1)%></button>
+                </div>
+                  
+                <div class = "col-md-6 pb-1">
+                  <div style = "color: #b7c0c6;;">
+                    <small>Num Rating:</small>
+                  </div>
+                  <button class="btn btn-sm btn-block btn-primary"><%=rest.statistic.count_ratings%></button>
+                </div>
+              </div>       
+
+          </div>
+        </div>
       </div>
-
-      <div class="form-group">
-        <label for="category_box">
-          Category
-        </label>
-
-        <input type="text" id="category_box" name="query_category" class="form-control">
-      </div>
-
-      <div class="form-group">
-        <label for="image_box">
-          Image
-        </label>
-
-        <input type="text" id="image_box" name="query_image" class="form-control">
-      </div>
-
-      <button class="btn btn-block btn-outline-secondary">
-        Create restaurant
-      </button>
-    </form>
-  </div>
-</div>
-
-<hr>
-<div class="row mb-3">
-  <div class="col-md-12">
-    <table class="table">
-      <tr>
-        <th>
-          ID
-        </th>
-
-        <th>
-          Name
-        </th>
-
-        <th>
-          Address
-        </th>
-
-        <th>
-          Category
-        </th>
-
-        <th>
-          Image
-        </th>
-
-        <th>
-          Created at
-        </th>
-
-        <th>
-          Updated at
-        </th>
-
-        <th>
-        </th>
-      </tr>
-
-      <% @restaurants.each do |restaurant| %>
-      <tr>
-        <td>
-          <%= restaurant.id %>
-        </td>
-
-        <td>
-          <%= restaurant.name %>
-        </td>
-
-        <td>
-          <%= restaurant.address %>
-        </td>
-
-        <td>
-          <%= restaurant.category %>
-        </td>
-
-        <td>
-          <%= restaurant.image %>
-        </td>
-
-        <td>
-          <%= time_ago_in_words(restaurant.created_at) %> ago
-        </td>
-        <td>
-          <%= time_ago_in_words(restaurant.updated_at) %> ago
-        </td>
-
-        <td>
-          <a href="/restaurants/<%= restaurant.id %>">
-            Show details
-          </a>
-        </td>
-      </tr>
       <% end %>
-    </table>
-  </div>
-</div>
+      <% end %>
+    <div>
+  </div>  
+ 
 
-<hr>
+  <script>
+    var ctx = document.getElementById('myChart').getContext('2d');
+
+    var scatterChart = new Chart(ctx, {
+        type: 'scatter',
+        animationEnabled: true,
+	      zoomEnabled: true,
+	      title:{
+		      text: "Rated Restaurants"
+	      },
+        data: {
+            datasets: [{
+                label: 'Restaurants',
+		            
+                data: [
+                    <% @restaurants.each do |rest| %>
+                      {
+                        x: <%= rest.statistic.count_ratings%>,
+                        y: <%= rest.statistic.average_rating.round(1)%>,
+                      },
+                    <% end %>
+                    ]
+            }]
+        },
+        options: {
+            title: {
+              display: true,
+              text: 'Restaurant Distribution'
+            },
+            toolTips: {
+              callbacks: {
+                  label: function(tooltipItem, data) {
+                      var label = data.datasets[tooltipItem.datasetIndex].label || '';
+
+                      if (label) {
+                          label += ': ';
+                      }
+                      label += Math.round(tooltipItem.yLabel * 100) / 100;
+                      return label;
+                  }
+              }
+
+              
+
+            },
+            scales: {
+                xAxes: [{
+                    type: 'linear',
+                    position: 'bottom',
+
+                    scaleLabel: {
+                      display: true,
+                      labelString: 'Ratings Count',
+                    }
+                }],
+                yAxes: [{
+                    type: 'linear',
+                    position: 'bottom',
+                    ticks: {
+                        max: 5,
+                        min: 0,
+                        stepSize: 1
+                    },
+                    scaleLabel: {
+                      display: true,
+                      labelString: 'Avg Rating',
+                    }
+                }]
+                
+            },
+        }
+    });
+
+  </script>
+
+</body>

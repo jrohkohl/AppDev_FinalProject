@@ -25,7 +25,7 @@ class RestaurantsController < ApplicationController
 
     if Restaurant.where({:name => r_name }).at(0).present?
 
-      
+      @searched_restaurant = Restaurant.new
 
       @searched_restaurant.name = Restaurant.where({:name => r_name }).at(0).name
 

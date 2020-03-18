@@ -71,12 +71,22 @@ class RatingsController < ApplicationController
     @rating = Rating.where({ :id => the_id }).at(0)
 
     @rating.user_id = @current_user.id
+
+    old_rating = @rating.rating
+
     @rating.restaurant_id = params.fetch("query_restaurant_id")
     @rating.rating = params.fetch("query_rating")
+
+    @statistic = Statistic.where({:restaurant_id => @rating.restaurant_id }).at(0)
     
 
     if @rating.valid?
       @rating.save
+      
+      
+      @statistic.average_rating = (@statistic.average_rating * (@statistic.count_ratings) - old_rating + @rating.rating) / @statistic.count_ratings
+
+      @statistic.save
       redirect_to("/get_started")
     else
       redirect_to("/get_started")

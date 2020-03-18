@@ -57,7 +57,8 @@
     <div class = "row">
     
       
-      <% 4.times do |index|%>    
+      <% 4.times do |index|%>
+        <% if @highest_rated.at(index).present?%>    
           
         <div class = "col-md-3 pb-4">
           <div class= "card mb-2 box-shadow h-100" >
@@ -89,7 +90,7 @@
           </div>
         </div>
 
-
+        <% end %>
       <% end %>
       
     
@@ -108,7 +109,8 @@
     </div>
     
     <div class = "row">
-      <% 4.times do |index|%>        
+      <% 4.times do |index|%>  
+        <% if @most_rated.at(index).present?%>       
         <div class = "col-md-3 pb-5">
           <div class= "card mb-2 box-shadow h-100">
             <img class = "card-img-top img-thumbnail" style="width: 100%; height: 200px; object-fit: cover;" src = "<%=@most_rated.at(index).restaurant.image%>">
@@ -121,14 +123,14 @@
               <div class = "row">
                 
                   <div class = "col-md-6 pb-1">
-                    <div style = "color: #b7c0c6;;">
+                    <div style = "color: #b7c0c6;">
                       <small>Avg Rating:</small>
                     </div>
                     <button class="btn btn-sm btn-block btn-primary"><%=@most_rated.at(index).average_rating.round(1)%></button>
                   </div>
                 
                   <div class = "col-md-6 pb-1">
-                    <div style = "color: #b7c0c6;;">
+                    <div style = "color: #b7c0c6;">
                       <small>Num Rating:</small>
                     </div>
                     <button class="btn btn-sm btn-block btn-primary"> <%=@most_rated.at(index).count_ratings%></button>
@@ -142,7 +144,7 @@
           </div>
         </div>
 
-
+        <% end %>
       <% end %>
     </div>
 </div>

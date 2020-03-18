@@ -1,51 +1,68 @@
 <head>
 
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-  <script src="jquery.barrating.min.js"></script>
-  <script type="text/javascript">
-    $(function() {
-        $('#example').barrating({
-          theme: 'fontawesome-stars'
-        });
-    });
-  </script>
 
 </head>
 
 <body>
 
-<% if @current_user.ratings_count < 5 %>
-  <section class = "jumbotron text-center">  
-    <div class="container">
-        <h1 class="jumbotron-heading">Let's Get Started</h1>
-        <p class = "lead text-muted">
-          To allow us to start making recommendations, please rate a few restaurants. <br />
-          After 5 rankings, we'll begin to show you tailored options.  
-        </p>
+<% if @current_user.ratings.count < 5 %>
+  <div class = "container">
+
+   <div class="row">
+
+      <div class="col-md-12">
+   
+
+          <h1>Let's Get Started</h1>
+      </div>
     </div>
-  </section>
+    <div class="row">
+
+      <div class="col-md-12">
+        <p class = "bg-danger text-white p-3">
+          Please rate a few restaurants! After 5 rankings, we'll begin to show you tailored options on your dashboard.
+        </p>
+
+      </div>
+    </div>
+  
+  </div>
+  
 
   <hr>
 <% else %>
 
-  <section class = "jumbotron text-center">  
-    <div class="container">
-        <h1 class="jumbotron-heading">Your Ratings</h1>
-        <p class = "lead text-muted">
-          To allow us to start making recommendations, please rate a few restaurants. <br />
-          After 5 rankings, we'll begin to show you tailored options.  
+  
+  <div class="container">
+    <div class="row">
+
+      <div class="col-md-12">
+        <h1>Your Ratings</h1>
+
+
+      </div>
+    </div>
+    <div class="row">
+
+      <div class="col-md-12">
+        <p class = "bg-success text-white p-3">
+          Tailored options are available on your dashboard.
         </p>
 
+      </div>
     </div>
-  </section>
+  </div>
+
+  <hr>
+  
 <% end %>
 
 
 
 <div class = "container">
   
-  <div class="row mb-3">
-    <div class="col-md-8 offset-md-2">
+  <div class="row">
+    <div class="col-md-6">
       <h2>
         Add a new rating
       </h2>
@@ -72,7 +89,7 @@
         <% if @searched_restaurant.present? %>
           <% if @current_user.rated_restaurants.where({ :name => @searched_restaurant.name }).at(0).present?%>
             <div class= "container">
-              <div class="col-md-8 offset-md-2">
+              <div class="col-md-8">
                 <p class = "lead text-muted"><small> Notice: Already Rated </small></p>
               </div>
             </div>
@@ -88,9 +105,9 @@
                     <img class = "card-img-top img-thumbnail" src = "<%=@searched_restaurant.image%>">
 
                     <div class="card-body">
-                      <p class = "card-text"><%= @searched_restaurant.name %> </p>
-                      <p class = "card-text"><%= @searched_restaurant.category %> </p>
-                      <p class = "card-text"><%= @searched_restaurant.address %></p>
+                      <h5 class = "card-text"><%= @searched_restaurant.name %> </h5>
+                      <p class = "card-text"><%= @searched_restaurant.category %> <br>
+                      <%= @searched_restaurant.address %></p>
 
                       <form action="/insert_restaurant" method="post">
                         <input type="hidden" value = "<%=@searched_restaurant.name %>" name="query_name">
@@ -105,7 +122,7 @@
                   </div>
                 </div>
               </div>
-            <div>
+            </div>
           <% end %>
         <% end %>
       <% end %>
@@ -113,11 +130,39 @@
     <% if @restaurant.present?%>
 
       <div class = container>
+      
 
-        <img class = "card-img-top" src = "<%=@restaurant.image%>">
-        <h2 class="jumbotron-heading"><%=@restaurant.name%></h2>
-        <h3 class="jumbotron-heading"><%=@restaurant.address%></h3>
-        <h3 class="jumbotron-heading"><%=@restaurant.category%></h3>
+      <div class="col-md-6">
+        <div class="row">
+          <div class="col-md-12 align-bottom mb-2">
+            <h1>
+              <%=@restaurant.name%>
+            </h1>
+          </div>
+        </div>
+
+        
+
+        <img class = "img-fluid mb-4" src = "<%= @restaurant.image %>">
+
+        <div class = "row">
+
+          <div class = "col-md-6 pb-1">
+            <div style = "color: #b7c0c6;">
+              <small>Address:</small>
+            </div>
+            <button class="btn btn-block btn-outline-secondary"><%=@restaurant.address%></button>
+          </div> 
+          <div class = "col-md-6 pb-1">
+            <div style = "color: #b7c0c6;">
+              <small>Category:</small>
+            </div>
+            <button class="btn btn-block btn-outline-secondary"><%=@restaurant.category%></button>
+          </div> 
+        </div>        
+        
+
+
         
 
         <form action="/insert_rating" method="post">
@@ -161,31 +206,21 @@
 <br>
     
 
-<div class="container">
-
-  <div class="row mb-3 jumbotron-heading">
-
-    <div class="col-md-8 offset-md-2">
-
-      <h2>My Ratings</h2>
-    </div>
-
-  </div>
-   
+<div class="container">   
   <div class = "row">
     <% @current_user.ratings.each do |rating| %>        
     <div class = "col-md-3 pb-4">
       <div class= "card box-shadow h-100">
         <img class = "card-img-top img-thumbnail" style="width: 100%; height: 200px; object-fit: cover;" src = "<%=rating.restaurant.image%>">
         <div class="card-body">
-          <h5 class="card-text">
+          <h6 class="card-text">
 
             <a href = "/restaurants/<%=rating.restaurant.id%>"><%=rating.restaurant.name%></a>
             
-          </h5>
+          </h6>
           <% if @open_rating.nil? %>
             <div style = "color: #b7c0c6;">
-              <small>Rating:</small>
+              <small>Your Rating:</small>
             </div>
             <button class="btn btn-sm btn-block btn-primary mb-2"> <%=rating.rating%></button>
           <% end %>
