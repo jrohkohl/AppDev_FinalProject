@@ -7,9 +7,9 @@ class RatingsController < ApplicationController
 
   def dashboard  
 
-    @most_rated = Statistic.all.order({ :count_ratings => :desc })
+    @most_rated = Statistic.where( "count_ratings > ?", 4 ).order({ :count_ratings => :desc })
 
-    @highest_rated = Statistic.all.order({ :average_rating => :desc })
+    @highest_rated = Statistic.where( "count_ratings > ?", 4 ).order({ :average_rating => :desc })
 
     render({ :template => "ratings/dashboard.html.erb" })
 
